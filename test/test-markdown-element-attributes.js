@@ -1,6 +1,7 @@
 
+var reveal = new Reveal('.reveal');
 
-Reveal.addEventListener( 'ready', function() {
+reveal.addEventListener( 'ready', function() {
 
 	QUnit.module( 'Markdown' );
 
@@ -42,5 +43,5 @@ Reveal.addEventListener( 'ready', function() {
 
 } );
 
-Reveal.initialize();
+reveal.initialize();
 

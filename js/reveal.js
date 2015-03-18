@@ -9,17 +9,17 @@
 	if( typeof define === 'function' && define.amd ) {
 		// AMD. Register as an anonymous module.
 		define( function() {
-			root.Reveal = factory();
+			root.Reveal = factory;
 			return root.Reveal;
 		} );
 	} else if( typeof exports === 'object' ) {
 		// Node. Does not work with strict CommonJS.
-		module.exports = factory();
+		module.exports = factory;
 	} else {
 		// Browser globals.
-		root.Reveal = factory();
+		root.Reveal = factory;
 	}
-}( this, function() {
+}( this, function(cssSelector) {
 
 	'use strict';
 
@@ -244,8 +244,8 @@
 		}
 
 		// Cache references to key DOM elements
-		dom.wrapper = document.querySelector( '.reveal' );
-		dom.slides = document.querySelector( '.reveal .slides' );
+		dom.wrapper = document.querySelector( cssSelector );
+		dom.slides = document.querySelector( cssSelector + ' .slides' );
 
 		// Force a layout when the whole page, incl fonts, has loaded
 		window.addEventListener( 'load', layout, false );
@@ -447,7 +447,7 @@
 		createSingletonNode( dom.wrapper, 'div', 'pause-overlay', null );
 
 		// Cache references to elements
-		dom.controls = document.querySelector( '.reveal .controls' );
+		dom.controls = document.querySelector( cssSelector + ' .controls' );
 		dom.theme = document.querySelector( '#theme' );
 
 		dom.wrapper.setAttribute( 'role', 'application' );
@@ -507,7 +507,7 @@
 		injectStyleSheet( '@page{size:'+ pageWidth +'px '+ pageHeight +'px; margin: 0;}' );
 
 		// Limit the size of certain elements to the dimensions of the slide
-		injectStyleSheet( '.reveal section>img, .reveal section>video, .reveal section>iframe{max-width: '+ slideWidth +'px; max-height:'+ slideHeight +'px}' );
+		injectStyleSheet( cssSelector + ' section>img, ' + cssSelector + ' section>video, ' + cssSelector + ' section>iframe{max-width: '+ slideWidth +'px; max-height:'+ slideHeight +'px}' );
 
 		document.body.classList.add( 'print-pdf' );
 		document.body.style.width = pageWidth + 'px';
@@ -2489,7 +2489,7 @@
 		}
 
 		// If there's a background brightness flag for this slide,
-		// bubble it to the .reveal container
+		// bubble it to the .reveal/cssSelector container
 		if( currentSlide ) {
 			[ 'has-light-background', 'has-dark-background' ].forEach( function( classToBubble ) {
 				if( currentSlide.classList.contains( classToBubble ) ) {
@@ -4256,12 +4256,12 @@
 		// Forward event binding to the reveal DOM element
 		addEventListener: function( type, listener, useCapture ) {
 			if( 'addEventListener' in window ) {
-				( dom.wrapper || document.querySelector( '.reveal' ) ).addEventListener( type, listener, useCapture );
+				( dom.wrapper || document.querySelector( cssSelector ) ).addEventListener( type, listener, useCapture );
 			}
 		},
 		removeEventListener: function( type, listener, useCapture ) {
 			if( 'addEventListener' in window ) {
-				( dom.wrapper || document.querySelector( '.reveal' ) ).removeEventListener( type, listener, useCapture );
+				( dom.wrapper || document.querySelector( cssSelector ) ).removeEventListener( type, listener, useCapture );
 			}
 		},
 
